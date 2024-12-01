@@ -1,12 +1,16 @@
 defmodule Day1 do
   def parse_lists do
-    {:ok, content} = File.read("inputs/day1.txt")
+    case File.read("inputs/day1.txt") do
+      {:error, reason} ->
+        raise "Error reading file: #{reason}"
 
-    String.trim(content)
-    |> String.split("\n")
-    |> Enum.map(fn s -> String.split(s, "   ") end)
-    |> Enum.map(fn [l, r] -> {String.to_integer(l), String.to_integer(r)} end)
-    |> Enum.reduce({[], []}, fn {l, r}, {l_acc, r_acc} -> {l_acc ++ [l], r_acc ++ [r]} end)
+      {:ok, content} ->
+        String.trim(content)
+        |> String.split("\n")
+        |> Enum.map(fn s -> String.split(s, "   ") end)
+        |> Enum.map(fn [l, r] -> {String.to_integer(l), String.to_integer(r)} end)
+        |> Enum.reduce({[], []}, fn {l, r}, {l_acc, r_acc} -> {l_acc ++ [l], r_acc ++ [r]} end)
+    end
   end
 
   def resolve_part1 do

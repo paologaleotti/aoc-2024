@@ -31,16 +31,16 @@ defmodule Day2 do
   defp is_level_safe(list) do
     is_sorted = list == Enum.sort(list) or list == Enum.sort(list, &(&1 >= &2))
 
-    is_sorted and is_adiacent_safe(list, true)
+    is_sorted and is_adjacent_safe(list, true)
   end
 
-  defp is_adiacent_safe([], is_safe), do: is_safe
-  defp is_adiacent_safe([_], is_safe), do: is_safe
+  defp is_adjacent_safe([], is_safe), do: is_safe
+  defp is_adjacent_safe([_], is_safe), do: is_safe
 
-  defp is_adiacent_safe([head | tail], is_safe) do
+  defp is_adjacent_safe([head | tail], is_safe) do
     dist = abs(head - hd(tail))
     ok = dist >= 1 and dist <= 3
 
-    is_adiacent_safe(tail, is_safe and ok)
+    is_adjacent_safe(tail, is_safe and ok)
   end
 end

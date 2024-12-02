@@ -16,16 +16,30 @@ defmodule Day2 do
   end
 
   def resolve_part1 do
-    levels = parse_reports()
+    parse_reports()
+    |> Enum.map(fn l -> is_level_safe(l) end)
+    |> Enum.filter(fn is_safe -> is_safe end)
+    |> Enum.count()
+  end
 
-    Enum.map(levels, fn l -> is_level_safe(l) end)
-    |> Enum.map(fn safe ->
-      case safe do
-        false -> 0
-        true -> 1
-      end
-    end)
-    |> Enum.sum()
+  def resolve_part2 do
+    evaluated =
+      parse_reports()
+      |> Enum.map(fn l -> {l, is_level_safe(l)} end)
+
+    dampened_reports =
+      evaluated
+      |> Enum.filter(fn {_, is_safe} -> not is_safe end)
+      |> Enum.map(fn {l, _} -> is_level_safe_dampened(l) end)
+      |> Enum.filter(fn is_safe -> is_safe end)
+      |> Enum.count()
+
+    safe_reports =
+      evaluated
+      |> Enum.filter(fn {_, is_safe} -> is_safe end)
+      |> Enum.count()
+
+    safe_reports + dampened_reports
   end
 
   defp is_level_safe(list) do
@@ -42,5 +56,12 @@ defmodule Day2 do
     ok = dist >= 1 and dist <= 3
 
     is_adjacent_safe(tail, is_safe and ok)
+  end
+
+  defp is_level_safe_dampened(list) do
+    list
+    |> Enum.with_index()
+    |> Enum.map(fn {_, i} -> is_level_safe(List.delete_at(list, i)) end)
+    |> Enum.any?()
   end
 end

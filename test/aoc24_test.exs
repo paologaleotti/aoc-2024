@@ -9,5 +9,6 @@ defmodule Aoc24Test do
 
   test "day 2" do
     assert Day2.resolve_part1() == 463
+    assert Day2.resolve_part2() == 514
   end
 end

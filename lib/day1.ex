@@ -26,12 +26,14 @@ defmodule Day1 do
   def resolve_part2 do
     {left, right} = parse_lists()
 
-    Enum.map(left, fn elem -> elem * find_duplicates_number(elem, right) end)
+    left
+    |> Enum.map(fn elem -> elem * find_duplicates_number(elem, right) end)
     |> Enum.sum()
   end
 
   defp find_duplicates_number(elem, list) do
-    Enum.filter(list, fn x -> x == elem end)
+    list
+    |> Enum.filter(fn x -> x == elem end)
     |> Enum.count()
   end
 end

@@ -1,5 +1,5 @@
 defmodule Day1 do
-  def parse_lists do
+  defp parse_lists do
     case File.read("inputs/day1.txt") do
       {:error, reason} ->
         raise "Error reading file: #{reason}"
@@ -30,7 +30,7 @@ defmodule Day1 do
     |> Enum.sum()
   end
 
-  def find_duplicates_number(elem, list) do
+  defp find_duplicates_number(elem, list) do
     Enum.filter(list, fn x -> x == elem end)
     |> Enum.count()
   end

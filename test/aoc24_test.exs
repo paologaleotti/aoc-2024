@@ -14,5 +14,6 @@ defmodule Aoc24Test do
 
   test "day 3" do
     assert Day3.resolve_part1() == 170_068_701
+    assert Day3.resolve_part2() == 78_683_433
   end
 end

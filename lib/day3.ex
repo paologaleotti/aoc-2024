@@ -13,12 +13,13 @@ defmodule Day3 do
 
   def resolve_part1 do
     parse_memory()
-    |> Enum.map(fn s ->
-      # Extract numbers from 'mul(x,y)' calls
-      Regex.scan(~r/\d{1,3}/, s)
-      |> Enum.map(fn [h | _] -> String.to_integer(h) end)
-    end)
+    |> Enum.map(&extract_numbers/1)
     |> Enum.map(fn [x, y] -> x * y end)
     |> Enum.sum()
+  end
+
+  defp extract_numbers(str) do
+    Regex.scan(~r/\d{1,3}/, str)
+    |> Enum.map(fn [h | _] -> String.to_integer(h) end)
   end
 end

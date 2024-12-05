@@ -67,7 +67,8 @@ defmodule Day4 do
       Enum.map(1..max_rows, fn y -> get_diagonal(matrix, length(matrix) - 1, y, :left) end)
   end
 
-  def get_diagonal(matrix, x, y, :right) do
+  @spec get_diagonal(matrix(), integer(), integer(), :left | :right) :: [[String.t()]]
+  defp get_diagonal(matrix, x, y, :right) do
     case {x, y} do
       {_, y} when y >= length(matrix) -> []
       {x, _} when x >= length(matrix) -> []
@@ -75,7 +76,7 @@ defmodule Day4 do
     end
   end
 
-  def get_diagonal(matrix, x, y, :left) do
+  defp get_diagonal(matrix, x, y, :left) do
     case {x, y} do
       {_, y} when y >= length(matrix) -> []
       {x, _} when x < 0 -> []

@@ -24,22 +24,10 @@ defmodule Day6 do
     {start_x, start_y} =
       matrix |> find_elem("^")
 
-    steps =
-      matrix
-      |> traverse_map(start_x, start_y, :up, [])
-      |> Enum.uniq()
-
-    # steps
-    # |> Enum.reduce(matrix, fn {x, y}, acc ->
-    #   List.update_at(acc, y, fn row ->
-    #     List.replace_at(row, x, "X")
-    #   end)
-    # end)
-    # |> Enum.map(&Enum.join/1)
-    # |> Enum.join("\n")
-    # |> IO.puts()
-
-    steps |> length()
+    matrix
+    |> traverse_map(start_x, start_y, :up, [])
+    |> Enum.uniq()
+    |> Enum.count()
   end
 
   @spec traverse_map(matrix(), integer(), integer(), heading(), [point()]) :: [point()]
@@ -87,13 +75,15 @@ defmodule Day6 do
     end
   end
 
-  # todo refactor this
   defp elem_at(matrix, x, y) do
-    with row when not is_nil(row) <- Enum.at(matrix, y),
-         elem when not is_nil(elem) <- Enum.at(row, x) do
-      elem
+    x_bound = length(Enum.at(matrix, y))
+    y_bound = length(matrix)
+    out_of_bounds = y < 0 or y >= y_bound or x < 0 or x >= x_bound
+
+    if out_of_bounds do
+      nil
     else
-      _ -> nil
+      Enum.at(Enum.at(matrix, y), x)
     end
   end
 
